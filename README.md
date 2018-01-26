@@ -1,4 +1,4 @@
-![](https://console.scalefastr.io/assets/images/logos/scalefastr-logo-cropped.png | width=100)
+![](https://console.scalefastr.io/assets/images/logos/scalefastr-logo-cropped.png)
 
 # Scalefastr Grafana Dashboards for Prometheus 2.0 and Grafana
 
