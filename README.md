@@ -17,6 +17,28 @@ To help others migrate to Prometheus 2.0 (as well as have functioning dashboards
 we thought it would be valuable to have a "known good" configuration of both
 dashboards and Prometheus configuration that they would work from.
 
+# Grafana Setup
+
+You should be able to take the raw .json and paste it into Grafana for dashboard
+import.  You can also use the Grafana API to import the dashboards from JSON.
+
+You will have to set your datasource or use a default datasource.
+
+If you make any changes you can use:
+
+sbin/fetch-dashboards.sh
+
+to export your dashboards as we would love to integrate any valuable changes 
+you've made.  
+
+Feel free to send a pull request if you make any changes.
+
+# Prometheus setup
+
+The ```prometheus.yml``` file we include is our full Prometheus configuration 
+with hosts blinded. This will specify all the exporters we use as well as 
+the labels applied. 
+
 # Screenshots
 
 ![](screenshots/2018-01-12-10-25-sandbox-mgmt-grafana-us-west-1.scalefastr.io.png)

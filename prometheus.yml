@@ -1,0 +1,201 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'node'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets:
+        
+        - host-44feebd7:9100
+        
+        - host-5a40e87e:9100
+        
+        - host-ef0d3785:9100
+        
+        - host-3c599143:9100
+        
+  - job_name: 'elasticsearch'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+
+                        
+      # targets for service: mgmt
+
+      
+      - targets:
+
+        - host-5a40e87e:9108
+
+        labels:
+          service: elasticsearch
+          cluster: mgmt
+          region: us-west-1
+          node: host-5a40e87e
+          node_type: default
+
+
+      - targets:
+
+        - host-3c599143:9108
+
+        labels:
+          service: elasticsearch
+          cluster: mgmt
+          region: us-west-1
+          node: host-3c599143
+          node_type: default
+
+      
+                                                                                                      
+      # targets for service: search
+
+      
+      - targets:
+
+        - host-ef0d3785:9108
+
+        labels:
+          service: elasticsearch
+          cluster: search
+          region: us-west-1
+          node: host-ef0d3785
+          node_type: default
+
+      
+      - targets:
+
+        - host-44feebd7:9108
+
+        labels:
+          service: elasticsearch
+          cluster: search
+          region: us-west-1
+          node: host-44feebd7
+          node_type: default
+
+      
+                                    
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: '(.*)\:9108'
+      target_label:  'instance'
+      replacement:   '$1'
+    - source_labels: [__address__]
+      regex:         '.*\.(.*)\.lan.*'
+      target_label:  'environment'
+      replacement:   '$1'
+
+  - job_name: 'haproxy'
+
+    static_configs:
+      
+      - targets:
+        - 94.130.149.36:9101 # host-44feebd7.REDACTED
+
+        labels:
+          region: us-west-1
+          instance_type: virtual_cx40
+
+      
+      - targets:
+        - 94.130.151.62:9101 # host-5a40e87e.REDACTED
+
+        labels:
+          region: us-west-1
+          instance_type: virtual_cx40
+
+      
+      - targets:
+        - 94.130.224.219:9101 # host-ef0d3785.REDACTED
+
+        labels:
+          region: us-west-1
+          instance_type: virtual_cx40
+
+      
+      - targets:
+        - 88.99.170.39:9101 # host-3c599143.REDACTED
+
+        labels:
+          region: us-west-1
+          instance_type: virtual_cx40
+
+      
+  # monitor prometheus itself
+  - job_name: 'prometheus'
+
+    static_configs:
+      - targets:
+        
+        - host-3c599143:9090 # host-3c599143
+        
+        - host-5a40e87e:9090 # host-5a40e87e
+        
+  - job_name: 'cassandra'
+
+    # the JMX exporter is slow so we have to back off and only fetch every 60 seconds 
+    scrape_interval:     60s
+    scrape_timeout:      60s
+    #evaluation_interval: 60s
+
+    static_configs:
+
+                                                                                                                                                
+      # targets for service: nosql
+
+      
+      - targets:
+
+        - host-44feebd7:6050
+
+        labels:
+          service: cassandra
+          cluster: nosql
+          servicename: nosql
+          datacenter: us-west-1
+          region: us-west-1
+          node: host-44feebd7
+          instance: host-44feebd7
+
+      
+      - targets:
+
+        - host-ef0d3785:6050
+
+        labels:
+          service: cassandra
+          cluster: nosql
+          servicename: nosql
+          datacenter: us-west-1
+          region: us-west-1
+          node: host-ef0d3785
+          instance: host-ef0d3785
+
+      
+            
