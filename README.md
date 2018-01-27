@@ -19,7 +19,7 @@ dashboards and Prometheus configuration that they would work from.
 
 # Screenshots
 
-[]
+![](screenshots/2018-01-12-10-25-sandbox-mgmt-grafana-us-west-1.scalefastr.io.png)
 
 # Credits       
 
